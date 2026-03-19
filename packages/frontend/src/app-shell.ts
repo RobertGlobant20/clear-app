@@ -1,4 +1,5 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, unsafeCSS } from 'lit';
+import leafletCss from 'leaflet/dist/leaflet.css?raw';
 import { customElement, state } from 'lit/decorators.js';
 import { sharedStyles } from './styles/shared-styles.js';
 import { StoreController } from './state/store-controller.js';
@@ -23,7 +24,8 @@ export class AppShell extends LitElement {
   @state() private selectedRouteIndex = 0;
   private eventSource: EventSource | null = null;
 
-  static styles = [sharedStyles, css`
+  /* Leaflet in index.html does not apply inside shadow DOM; bundle its CSS here */
+  static styles = [sharedStyles, unsafeCSS(leafletCss), css`
     :host {
       display: block;
       min-height: 100vh;

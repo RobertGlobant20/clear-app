@@ -55,6 +55,7 @@ const airports = [
   [33, 'OBBI', 'large_airport', 'Bahrain International Airport', 26.2708, 50.6336, 6, 'AS', 'BH', 'BH-13', 'Muharraq', 'BAH', 'OBBI'],
   [34, 'OJAI', 'large_airport', 'Queen Alia International Airport', 31.7226, 35.9932, 2395, 'AS', 'JO', 'JO-AM', 'Amman', 'AMM', 'OJAI'],
   [35, 'OLBA', 'large_airport', 'Beirut–Rafic Hariri International Airport', 33.8209, 35.4884, 87, 'AS', 'LB', 'LB-BA', 'Beirut', 'BEY', 'OLBA'],
+  [36, 'KBOS', 'large_airport', 'General Edward Lawrence Logan International Airport', 42.3643, -71.0052, 19, 'NA', 'US', 'US-MA', 'Boston', 'BOS', 'KBOS'],
 ];
 
 const insertAirport = db.prepare(`

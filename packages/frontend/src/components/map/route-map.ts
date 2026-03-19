@@ -43,7 +43,11 @@ export class RouteMap extends LitElement {
     this.markerLayer.addTo(this.map);
     this.zoneLayer.addTo(this.map);
 
-    this.updateMap();
+    // Host layout (e.g. inside shadow DOM) may report 0×0 until after paint
+    requestAnimationFrame(() => {
+      this.map?.invalidateSize();
+      this.updateMap();
+    });
   }
 
   updated(changed: Map<string, unknown>) {
@@ -60,6 +64,8 @@ export class RouteMap extends LitElement {
     this.zoneLayer.clearLayers();
 
     if (!this.origin || !this.destination) return;
+
+    try {
 
     // Add origin/destination markers
     const originIcon = L.divIcon({ className: '', html: `<div style="background:#111;color:#fff;padding:2px 6px;border-radius:2px;font-size:12px;font-weight:700;font-family:monospace;white-space:nowrap">${this.origin.code}</div>` });
@@ -78,6 +84,7 @@ export class RouteMap extends LitElement {
 
     for (let i = 0; i < this.routes.length; i++) {
       const route = this.routes[i];
+      if (!route.path?.coordinates?.length) continue;
       const coords = route.path.coordinates.map(c => [c[1], c[0]] as [number, number]);
       const isSelected = i === this.selectedRouteIndex;
       const color = riskColors[route.riskLevel] || '#999';
@@ -109,6 +116,9 @@ export class RouteMap extends LitElement {
       [this.destination.lat, this.destination.lon],
     ];
     this.map.fitBounds(L.latLngBounds(allCoords), { padding: [40, 40] });
+    } catch (e) {
+      console.error('route-map: updateMap failed', e);
+    }
   }
 
   render() {

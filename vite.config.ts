@@ -1,11 +1,15 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { dirname, resolve } from 'path';
+import { fileURLToPath } from 'url';
+
+// Config path is repo root — use this so `vite` works when cwd is `packages/frontend`
+const rootDir = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  root: 'packages/frontend',
+  root: resolve(rootDir, 'packages/frontend'),
   resolve: {
     alias: {
-      '@frcs/shared': resolve(__dirname, 'packages/shared/src'),
+      '@frcs/shared': resolve(rootDir, 'packages/shared/src'),
     },
   },
   server: {
@@ -18,7 +22,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: resolve(__dirname, 'dist/frontend'),
+    outDir: resolve(rootDir, 'dist/frontend'),
     emptyOutDir: true,
   },
 });
